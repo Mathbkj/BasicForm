@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  font-size: 10px;
+}
+
+* {
+  font-size: 2rem;
+  padding: 1rem;
+  margin: 0.5rem;
+  box-sizing: content-box;
+  outline: none;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  place-content: center;
+  place-items: center;
+  gap: 1rem;
+}
+form input {
+  margin: 1rem;
+  padding: 0.5rem;
+  border-radius: 1.5rem;
+  color: lightgreen;
+}
+form input::placeholder {
+  color: lightgreen;
+}
+.error-class {
+  color: lightcoral;
+}
