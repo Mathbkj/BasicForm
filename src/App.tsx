@@ -6,8 +6,11 @@ import { User } from "./assets/User";
 import axios, { AxiosResponse } from "axios";
 import UserIcon from "./assets/Icons/UserIcon";
 import PassTextArea from "./assets/PassTextArea";
+import Toggler from "./assets/Icons/Toggler";
+import { useContext } from "react";
+import { PassContext } from "./assets/Icons/Context/ContextProvider";
 
-const numbers: number = 0 | 1 || 2 || 3 || 4 || 5 || 6 || 7 || 8 || 9;
+const numbers: number = 0 || 1 || 2 || 3 || 4 || 5 || 6 || 7 || 8 || 9;
 
 export const FormSchema = z
   .object({
@@ -47,13 +50,14 @@ export const FormSchema = z
 export type Form = z.infer<typeof FormSchema>;
 
 function App(): JSX.Element {
+  const context = useContext(PassContext);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Form>({
     resolver: zodResolver(FormSchema),
-    mode: "onChange",
+    mode: "all",
   });
   const onSubmit: SubmitHandler<Form> = (data) => {
     const register__USER = async () => {
@@ -75,8 +79,8 @@ function App(): JSX.Element {
             },
           }
         );
-        if (sent.status === 200) {
-          console.log(sent.data);
+        if (sent.status !== 200) {
+          throw new Error(`STATUS ERROR:${sent.status}`);
         }
 
         console.log(`User Added:${created}`);
@@ -119,14 +123,19 @@ function App(): JSX.Element {
           <span className="error-class">{errors.email?.message}</span>
         )}
         <input
-          type="password"
+          type={context?.Type}
           {...register("password")}
           id="pass"
           placeholder="Password"
         />
+        <div className="container relative">
+          <Toggler />
+        </div>
+
         {errors.password && (
           <span className="error-class">{errors.password?.message}</span>
         )}
+
         <PassTextArea
           requirements={{
             firstReq: "Must match exactly 8 chars",
